@@ -31,20 +31,20 @@ export default {
     const userInput = () => {
       messages.push({
         role: 'user',
-        content: message.value
+        parts: message.value
       })
       message.value = null
       chat(messages)
     }
 
     const chat = async (msgs) => {
-      const chatCompletion = await model.generateContent(msgs[msgs.length-1].content);
+      const chatCompletion = await model.generateContent(msgs[msgs.length-1].parts);
       const response = await chatCompletion.response;
       const text = response.text();
 
       messages.push({
         role: 'assistant',
-        content: text
+        parts: text
       })
 
 

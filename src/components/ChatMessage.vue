@@ -8,7 +8,7 @@
       </v-col>
       <v-col cols="12" sm="10" class="align-self-center">
         <v-sheet class="ma-2 pa-2">
-          <pre v-html="msg.content" class="preWrap"></pre>
+          <pre v-html="msg.parts" class="preWrap"></pre>
         </v-sheet>
       </v-col>
     </v-row>
