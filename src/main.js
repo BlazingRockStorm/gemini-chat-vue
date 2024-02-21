@@ -1,5 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+// Vuetify
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
 // import { GoogleGenerativeAI } from '@google/generative-ai'
 
 // // Access your API key as an environment variable (see "Set up your API key" above)
@@ -15,5 +22,12 @@ import App from './App.vue'
 // const response = await result.response;
 // const text = response.text();
 // console.log(text);
+const vuetify = createVuetify({
+  components,
+  directives,
+  theme: {
+    defaultTheme: 'dark'
+  }
+})
 
-createApp(App).mount('#app')
+createApp(App).use(vuetify).mount('#app')
