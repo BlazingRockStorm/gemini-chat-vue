@@ -37,17 +37,25 @@ export default {
       chat(messages)
     }
 
+    // https://ai.google.dev/tutorials/node_quickstart?hl=vi#multi-turn-conversations-chat
     const chat = async (msgs) => {
-      const chatCompletion = await model.generateContent(msgs[msgs.length-1].parts);
-      const response = await chatCompletion.response;
-      const text = response.text();
+      console.log(msgs)
+      const chat = model.startChat({
+        history: msgs,
+        generationConfig: {
+          maxOutputTokens: 100,
+        },
+      });
+      console.log(chat)
+      // const chatCompletion = await chat.sendMessage('Linkin Park');
+      // const response = await chatCompletion.response;
+      // const text = response.text();
+      // console.log(chatCompletion);
 
       messages.push({
         role: 'assistant',
-        parts: text
+        parts: 'test'
       })
-
-
     }
 
     return { userInput, message, messages }
