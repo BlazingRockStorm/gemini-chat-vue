@@ -13,6 +13,11 @@
 <script>
 import ChatMessage from './ChatMessage.vue'
 import { reactive, ref } from 'vue'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+// Access your API key as an environment variable (see "Set up your API key" above)
+const genAI = new GoogleGenerativeAI(process.env.VUE_APP_GOOGLE_GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 export default {
   name: 'ChatScreen',
@@ -33,9 +38,13 @@ export default {
     }
 
     const chat = async (msgs) => {
+      const chatCompletion = await model.generateContent(msgs[msgs.length-1].content);
+      const response = await chatCompletion.response;
+      const text = response.text();
+
       messages.push({
         role: 'assistant',
-        content: 'test' + msgs
+        content: text
       })
 
 
