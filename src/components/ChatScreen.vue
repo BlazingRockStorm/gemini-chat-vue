@@ -1,58 +1,55 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-sheet class="mx-auto mt-1 container" elevation="4" max-width="85%">
+    <ChatMessage v-for="(message, index) in messages" :key="index" :msg="message" />
+  </v-sheet>
+  <v-sheet class="mx-auto mt-1 container pa-5" elevation="4" max-width="85%" height="auto">
+    <div class="d-flex">
+      <v-textarea label="prompt" variant="underlined" class="me-5" v-model="message"></v-textarea>
+      <v-btn @click="userInput" icon="mdi-send" class="align-self-center"></v-btn>
+    </div>
+  </v-sheet>
 </template>
 
 <script>
+import ChatMessage from './ChatMessage.vue'
+import { reactive, ref } from 'vue'
+
 export default {
   name: 'ChatScreen',
-  props: {
-    msg: String
-  }
+  components: {
+    ChatMessage
+  },
+  setup() {
+    const message = ref(null)
+    const messages = reactive([])
+
+    const userInput = () => {
+      messages.push({
+        role: 'user',
+        content: message.value
+      })
+      message.value = null
+      chat(messages)
+    }
+
+    const chat = async (msgs) => {
+      messages.push({
+        role: 'assistant',
+        content: 'test' + msgs
+      })
+
+
+    }
+
+    return { userInput, message, messages }
+  },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.container {
+  max-height: 75hv;
+  overflow-y: auto;
+  flex-direction: column;
 }
 </style>
