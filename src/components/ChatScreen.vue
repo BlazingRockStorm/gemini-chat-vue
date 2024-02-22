@@ -46,7 +46,7 @@ export default {
           maxOutputTokens: 100,
         },
       });
-      console.log(chat)
+      console.log(chat);
       // const chatCompletion = await chat.sendMessage('Linkin Park');
       // const response = await chatCompletion.response;
       // const text = response.text();
