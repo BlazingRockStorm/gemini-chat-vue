@@ -53,7 +53,7 @@ export default {
       // console.log(chatCompletion);
 
       messages.push({
-        role: 'assistant',
+        role: 'model',
         parts: 'test'
       })
     }

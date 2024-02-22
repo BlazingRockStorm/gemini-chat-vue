@@ -3,7 +3,7 @@
     <v-row class="d-flex overflow-auto">
       <v-col cols="12" sm="2" class="align-start">
         <v-sheet class="ma-2 pa-2">
-          <v-btn :append-icon="msg.role === 'user' ? 'mdi-account' : 'mdi-assistant'">{{ msg.role }}</v-btn>
+          <v-btn :append-icon="msg.role === 'user' ? 'mdi-account' : 'mdi-model'">{{ msg.role }}</v-btn>
         </v-sheet>
       </v-col>
       <v-col cols="12" sm="10" class="align-self-center">
