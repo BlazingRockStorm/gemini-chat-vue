@@ -1,16 +1,16 @@
 <template>
   <main>
-    <ChatScreen />
+    <ChatScreen2 />
   </main>
 </template>
 
 <script>
-import ChatScreen from './components/ChatScreen.vue'
+import ChatScreen2 from './components/ChatScreen2.vue'
 
 export default {
   name: 'App',
   components: {
-    ChatScreen
+    ChatScreen2
   }
 }
 </script>
