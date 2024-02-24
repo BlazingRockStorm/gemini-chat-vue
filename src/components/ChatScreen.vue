@@ -4,57 +4,57 @@
   </v-sheet>
   <v-sheet class="mx-auto mt-1 container pa-5" elevation="4" max-width="85%" height="auto">
     <div class="d-flex">
-      <v-textarea label="prompt" variant="underlined" class="me-5" v-model="message"></v-textarea>
-      <v-btn @click="userInput" icon="mdi-send" class="align-self-center"></v-btn>
+      <v-textarea label="prompt" variant="underlined" class="me-5" v-model="inputMessage"></v-textarea>
+      <v-btn @click="sendMessage" icon="mdi-send" class="align-self-center"></v-btn>
     </div>
   </v-sheet>
 </template>
-
+  
 <script>
 import ChatMessage from './ChatMessage.vue'
-import { reactive, ref } from 'vue'
 import { GoogleGenerativeAI } from '@google/generative-ai'
-
-// Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env.VUE_APP_GOOGLE_GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 export default {
   name: 'ChatScreen',
   components: {
     ChatMessage
   },
-  setup() {
-    const message = ref(null)
-    const messages = reactive([])
 
-    const userInput = () => {
-      messages.push({
+  data() {
+    const genAI = new GoogleGenerativeAI(process.env.VUE_APP_GOOGLE_GEMINI_API_KEY)
+
+    return {
+      genAI: genAI,
+      model: null,
+      chat: null,
+      messages: [],
+      inputMessage: ''
+    }
+  },
+
+
+  mounted() {
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' })
+    this.chat = this.model.startChat()
+  },
+
+  methods: {
+    async sendMessage() {
+      const result = await this.chat.sendMessage(this.inputMessage)
+      const response = await result.response;
+      const text = response.text()
+      this.messages.push({
         role: 'user',
-        content: message.value
+        parts: this.inputMessage
       })
-      message.value = null
-      chat(messages)
-    }
-
-    const chat = async (msgs) => {
-      const chatCompletion = await model.generateContent(msgs[msgs.length-1].content);
-      const response = await chatCompletion.response;
-      const text = response.text();
-
-      messages.push({
-        role: 'assistant',
-        content: text
-      })
-
+      this.messages.push({ role: 'model', parts: text })
+      this.inputMessage = ''
 
     }
-
-    return { userInput, message, messages }
   },
 }
 </script>
-
+  
 <style scoped>
 .container {
   max-height: 75hv;
