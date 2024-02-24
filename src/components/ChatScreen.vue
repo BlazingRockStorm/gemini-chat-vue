@@ -21,8 +21,10 @@ export default {
   },
 
   data() {
+    const genAI = new GoogleGenerativeAI(process.env.VUE_APP_GOOGLE_GEMINI_API_KEY)
+
     return {
-      genAI: new GoogleGenerativeAI(process.env.VUE_APP_GOOGLE_GEMINI_API_KEY),
+      genAI: genAI,
       model: null,
       chat: null,
       messages: [],
@@ -32,7 +34,7 @@ export default {
 
 
   mounted() {
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+    this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' })
     this.chat = this.model.startChat()
   },
 
