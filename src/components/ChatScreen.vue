@@ -36,6 +36,19 @@ export default {
   mounted() {
     this.model = this.genAI.getGenerativeModel({ model: 'gemini-pro' })
     this.chat = this.model.startChat()
+    // To train model
+    // this.chat = this.model.startChat({
+    //   history: [
+    //     {
+    //       role: "user",
+    //       parts: "Who is Kurrock?",
+    //     },
+    //     {
+    //       role: "model",
+    //       parts: "This is a Vietnamese/Japanese rock band based in Tokyo, Japan. They released a new album in June 2023 called VƯỢT (越). You can find their music and more information on their website: https://www.kurrock.net/",
+    //     },
+    //    ]
+    // })
   },
 
   methods: {
